@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd"
+    bootstrap="vendor/autoload.php"
+    colors="true"
+    cacheDirectory=".phpunit.cache"
+>
+    <testsuites>
+        <testsuite name="Unit">
+            <directory suffix="Test.php">./tests/Unit</directory>
+            <exclude>./tests/Unit/ExampleTest.php</exclude>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./tests/Feature</directory>
+            <exclude>./tests/Feature/ExampleTest.php</exclude>
+        </testsuite>
+    </testsuites>
+    <coverage/>
+    <php>
+        <env name="APP_ENV" value="test_terravie"/>
+        <env name="BCRYPT_ROUNDS" value="4"/>
+        <env name="CACHE_DRIVER" value="array"/>
+        <env name="DB_DATABASE" value="test_terravie"/>
+        <env name="MAIL_MAILER" value="array"/>
+        <env name="QUEUE_CONNECTION" value="sync"/>
+        <env name="SESSION_DRIVER" value="array"/>
+        <env name="TELESCOPE_ENABLED" value="false"/>
+    </php>
+    <source>
+        <include>
+            <directory suffix=".php">./app</directory>
+        </include>
+        <exclude>
+            <directory suffix=".php">./app/Exceptions</directory>
+            <directory suffix=".php">./app/Providers</directory>
+            <directory suffix=".php">./app/Services/Socials</directory>
+            <directory suffix=".php">./app/Models</directory>
+            <directory suffix=".php">./app/Console</directory>
+            <directory suffix=".php">./app/Http/Middleware</directory>
+            <directory suffix=".php">./app/Jobs</directory>
+            <directory suffix=".php">./app/Enums</directory>
+            <directory suffix=".php">./app/Filters</directory>
+            <directory suffix=".php">./app/Transformers</directory>
+        </exclude>
+    </source>
+</phpunit>

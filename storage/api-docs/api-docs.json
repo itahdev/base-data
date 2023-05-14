@@ -1,0 +1,297 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Documentation",
+        "description": "API Documentation for Staff app service",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/api",
+            "description": "API Staff App Server"
+        }
+    ],
+    "paths": {
+        "/v1/auth/login": {
+            "post": {
+                "tags": [
+                    "AUTH"
+                ],
+                "summary": "User login",
+                "operationId": "a2ea354b577359a531dcf6775fb628f7",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResource"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Login failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "The email field is required",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResource"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "LoginRequest": {
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "example": "u0@example.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "qwerty"
+                    }
+                },
+                "type": "object"
+            },
+            "AuthResource": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/SuccessResource"
+                    },
+                    {
+                        "properties": {
+                            "meta": {
+                                "$ref": "#/components/schemas/MetaResource"
+                            },
+                            "data": {
+                                "properties": {
+                                    "access_token": {
+                                        "type": "string",
+                                        "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMDI4My0zNC0yMTktMTQ0LTE0Ni5uZ3Jvay5pby9hcGkvbG9naW4iLCJpYXQiOjE2NjY5Mzg4MTEsImV4cCI6MTY2Njk0MjQxMSwibmJmIjoxNjY2OTM4ODExLCJqdGkiOiJ1N1dYV3JKSFBxSjZ3dXA0Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjciLCJndWFyZCI6ImFwaSJ9.JRbvzCNv1CCxp1CbDuD6HefKO072eoFPNGjEP_aQiKo"
+                                    },
+                                    "expires_in": {
+                                        "description": "Amount of time in seconds until the access token expires",
+                                        "type": "integer",
+                                        "example": "2592"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                ]
+            },
+            "ErrorResource": {
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/MetaResource"
+                    }
+                },
+                "type": "object"
+            },
+            "MetaCursorPaginationResource": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/MetaResource"
+                    },
+                    {
+                        "properties": {
+                            "message": {
+                                "description": "Status code message",
+                                "type": "string",
+                                "example": "Successful operation"
+                            },
+                            "pagination": {
+                                "properties": {
+                                    "path": {
+                                        "type": "string",
+                                        "example": "api/v1/example"
+                                    },
+                                    "per_page": {
+                                        "type": "integer",
+                                        "example": "15"
+                                    },
+                                    "next_cursor": {
+                                        "type": "string",
+                                        "example": "eyJjcmVhdGVkX2F0IjoiMjAyMy0wNC0yMCAxMjowODoxMSIsIl9wb2ludHNUb05leHRJdGVtcyI6dHJ1ZX0",
+                                        "nullable": true
+                                    },
+                                    "next_page_url": {
+                                        "type": "string",
+                                        "example": "api/v1/example?cursor=eyJjcmVhdGVkX2F0IjoiMjAyMy0wNC0yMCAxMjowODoxMSIsIl9wb2ludHNUb05leHRJdGVtcyI6dHJ1ZX0",
+                                        "nullable": true
+                                    },
+                                    "prev_cursor": {
+                                        "type": "string",
+                                        "example": "eyJjcmVhdGVkX2F0IjoiMjAyMy0wNC0yMCAxMjowNjozMSIsIl9wb2ludHNUb05leHRJdGVtcyI6ZmFsc2V9",
+                                        "nullable": true
+                                    },
+                                    "prev_page_url": {
+                                        "type": "string",
+                                        "example": "api/v1/example?cursor=eyJjcmVhdGVkX2F0IjoiMjAyMy0wNC0yMCAxMjowODoxMSIsIl9wb2ludHNUb05leHRJdGVtcyI6dHJ1ZX0",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                ]
+            },
+            "MetaPaginationResource": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/MetaResource"
+                    },
+                    {
+                        "properties": {
+                            "message": {
+                                "description": "Status code message",
+                                "type": "string",
+                                "example": "Successful operation"
+                            },
+                            "pagination": {
+                                "properties": {
+                                    "total": {
+                                        "description": "Total records",
+                                        "type": "integer",
+                                        "example": "10"
+                                    },
+                                    "count": {
+                                        "description": "Total records at current page",
+                                        "type": "integer",
+                                        "example": "15"
+                                    },
+                                    "per_page": {
+                                        "description": "Number of records per page",
+                                        "type": "integer",
+                                        "example": "10"
+                                    },
+                                    "current_page": {
+                                        "description": "Current page",
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "last_page": {
+                                        "description": "Last page",
+                                        "type": "integer",
+                                        "example": "2"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                ]
+            },
+            "MetaResource": {
+                "properties": {
+                    "message": {
+                        "description": "Meta message",
+                        "type": "string"
+                    },
+                    "errors": {
+                        "description": "Meta error",
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "SuccessAllResource": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "properties": {}
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/MetaResource"
+                    }
+                },
+                "type": "object"
+            },
+            "SuccessResource": {
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/MetaResource"
+                    }
+                },
+                "type": "object"
+            },
+            "TrvSuccessResource": {
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    },
+                    "meta": {
+                        "properties": {
+                            "message": {
+                                "type": "string",
+                                "example": "Successful operation"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "description": "Enter token in format: <b>Bearer token_here</b>",
+                "scheme": "bearer"
+            }
+        }
+    }
+}
